@@ -39,7 +39,7 @@ dependencies {
 afterEvaluate {
     publishing {
         publications {
-            release(MavenPublication) {
+            register<MavenPublication>("service") {
                 from(components.getByName("release"))        // 表示发布 release（jitpack 都不会使用到）
                 groupId = "com.fan.libxposed" // 这个是依赖库的组 id
                 artifactId = "service"       // 依赖库的名称（jitpack 都不会使用到）
@@ -55,18 +55,5 @@ signing {
     if (!signingKey.isNullOrBlank() && !signingPassword.isNullOrBlank()) {
         useInMemoryPgpKeys(signingKey, signingPassword)
         sign(publishing.publications)
-    }
-}
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release         // 表示发布 release（jitpack 都不会使用到）
-                groupId = 'com.fan.libxposed' // 这个是依赖库的组 id
-                artifactId = 'service'       // 依赖库的名称（jitpack 都不会使用到）
-                version = "100-1.0.0" //
-            }
-        }
     }
 }
