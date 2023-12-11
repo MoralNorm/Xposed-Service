@@ -36,50 +36,14 @@ dependencies {
     compileOnly("androidx.annotation:annotation:1.7.0")
 }
 
-publishing {
-    publications {
-        register<MavenPublication>("service") {
-            artifactId = "service"
-            group = "io.github.libxposed"
-            version = "100-1.0.0"
-            pom {
-                name.set("service")
-                description.set("Modern Xposed Service Interface")
-                url.set("https://github.com/libxposed/service")
-                licenses {
-                    license {
-                        name.set("Apache License 2.0")
-                        url.set("https://github.com/libxposed/service/blob/master/LICENSE")
-                    }
-                }
-                developers {
-                    developer {
-                        name.set("libxposed")
-                        url.set("https://libxposed.github.io")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:https://github.com/libxposed/service.git")
-                    url.set("https://github.com/libxposed/service")
-                }
-            }
-            afterEvaluate {
-                from(components.getByName("release"))
-            }
-        }
-    }
-    repositories {
-        maven {
-            name = "ossrh"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials(PasswordCredentials::class)
-        }
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/libxposed/service")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from(components.getByName("release"))        // 表示发布 release（jitpack 都不会使用到）
+                groupId = "com.fan.libxposed" // 这个是依赖库的组 id
+                artifactId = "service"       // 依赖库的名称（jitpack 都不会使用到）
+                version = "100-1.0.0" //
             }
         }
     }
